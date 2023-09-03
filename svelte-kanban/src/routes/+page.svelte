@@ -1,11 +1,9 @@
 <script>
-	import { addTodos, deleteTodos, loadTodos, todos, updateToggleTodos } from '../stores/todosStore';
+	import { addTodos, deleteTodos, todos, updateToggleTodos } from '../stores/todosStore';
 
 	let form = {
 		title: ''
 	};
-
-	loadTodos();
 </script>
 
 <section class="min-w-full min-h-screen px-20 py-10">
@@ -18,7 +16,7 @@
 			<fieldset class="flex items-center gap-4">
 				<label class="text-lg font-semibold capitalize" for="title">title</label>
 				<input
-					class="w-full max-w-md px-2 text-gray-800 rounded-lg"
+					class="w-full max-w-md px-2 py-0 text-gray-800 rounded-lg"
 					type="text"
 					name="title"
 					id="title"
@@ -39,16 +37,10 @@
 		</form>
 	</section>
 	<section class="flex flex-col max-w-2xl gap-4 p-8 mx-auto mt-10 bg-gray-300 rounded-lg">
-		{JSON.stringify(form)}
 		{#each $todos as todo (todo.id)}
-			<div class="p-4 bg-gray-500 rounded-lg">
-				<p>id: {todo.id}</p>
-				<p>created_at: {todo.created_at}</p>
-				<p>title: {todo.title}</p>
-				<p>column_number: {todo.column_number}</p>
-				<p>is_done: {todo.is_done}</p>
+			<div class="flex items-center gap-4 p-4 bg-gray-400 rounded-lg">
 				<input
-					class=""
+					class="w-5 h-5 rounded-md form-checkbox"
 					type="checkbox"
 					name="is_done"
 					id="is_done"
@@ -56,10 +48,10 @@
 					checked={todo.is_done}
 					on:change={() => updateToggleTodos(todo.id, todo.is_done)}
 				/>
-				<p>user_id: {todo.user_id}</p>
+				<p class={todo.is_done ? 'line-through' : null}>title: {todo.title}</p>
 				<button
-					class="px-1 text-red-900 bg-red-300 rounded-lg"
-					on:click={() => deleteTodos(todo.id)}>delete</button
+					class="px-1 py-2 ml-auto leading-none text-red-900 bg-red-300 rounded-lg"
+					on:click={() => deleteTodos(todo.id)}>🗑️</button
 				>
 			</div>
 		{/each}

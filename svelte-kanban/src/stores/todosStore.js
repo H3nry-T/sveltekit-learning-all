@@ -23,7 +23,7 @@ export const todos = writable([]);
  */
 
 export async function loadTodos() {
-	const { data, error } = await supabase.from('todos').select('*');
+	const { data, error } = await supabase.from('todos').select('*').order('id', { ascending: true });
 	if (error) {
 		console.error(error);
 	}
