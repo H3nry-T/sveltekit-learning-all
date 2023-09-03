@@ -1,16 +1,11 @@
 <script>
-	import { addTodos, loadTodos, todos } from '../stores/todosStore';
+	import { addTodos, deleteTodos, loadTodos, todos, updateToggleTodos } from '../stores/todosStore';
 
-	/**
-	 *
-	 */
 	let form = {
 		title: ''
 	};
 
 	loadTodos();
-
-	let show = false;
 </script>
 
 <section class="min-w-full min-h-screen px-20 py-10">
@@ -28,21 +23,45 @@
 					name="title"
 					id="title"
 					bind:value={form.title}
+					required
 				/>
 			</fieldset>
 			<button
 				type="submit"
-				class="px-2 py-1 bg-blue-500 rounded-lg hover:bg-blue-700"
-				on:click={() => {
-					show = true;
-					addTodos(form);
+				class="px-2 py-1 bg-blue-500 rounded-lg hover:bg-blue-700 active:bg-blue-800"
+				on:click={async () => {
+					if (form.title.length > 0) {
+						await addTodos(form);
+						form.title = '';
+					}
 				}}>submit</button
 			>
 		</form>
 	</section>
-	<section class="max-w-2xl p-8 mx-auto mt-10 bg-gray-300 border-lg">
+	<section class="flex flex-col max-w-2xl gap-4 p-8 mx-auto mt-10 bg-gray-300 rounded-lg">
+		{JSON.stringify(form)}
 		{#each $todos as todo (todo.id)}
-			<div class="p-4 bg-gray-500"><p>{todo.title}</p></div>
+			<div class="p-4 bg-gray-500 rounded-lg">
+				<p>id: {todo.id}</p>
+				<p>created_at: {todo.created_at}</p>
+				<p>title: {todo.title}</p>
+				<p>column_number: {todo.column_number}</p>
+				<p>is_done: {todo.is_done}</p>
+				<input
+					class=""
+					type="checkbox"
+					name="is_done"
+					id="is_done"
+					value={todo.is_done}
+					checked={todo.is_done}
+					on:change={() => updateToggleTodos(todo.id, todo.is_done)}
+				/>
+				<p>user_id: {todo.user_id}</p>
+				<button
+					class="px-1 text-red-900 bg-red-300 rounded-lg"
+					on:click={() => deleteTodos(todo.id)}>delete</button
+				>
+			</div>
 		{/each}
 	</section>
 </section>

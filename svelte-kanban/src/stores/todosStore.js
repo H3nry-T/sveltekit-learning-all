@@ -2,12 +2,12 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase';
 /**
  * @typedef {Object} Todo
- * @property {number | null} column_number
+ * @property {number} column_number
  * @property {string} created_at
  * @property {number} id
- * @property {boolean | null} is_done
- * @property {string | null} title
- * @property {string | null} user_id
+ * @property {boolean} is_done
+ * @property {string} title
+ * @property {string} user_id
  */
 
 /**
@@ -28,6 +28,7 @@ export async function loadTodos() {
 		console.error(error);
 	}
 
+	console.log('supabase read and load into svelte store');
 	todos.set(/** @type {Todo[]} */ (data));
 }
 
@@ -39,20 +40,18 @@ export async function loadTodos() {
 export async function addTodos(todo, userId = 'test') {
 	const { data, error } = await supabase
 		.from('todos')
-		.insert([
-			{
-				title: todo.title,
-				userId: userId
-			}
-		])
+		.insert([{ title: todo.title, is_done: false }])
 		.select();
 
 	if (error) {
 		console.error(error, data);
+		console.log('something is wrong');
 	}
 
 	if (data) {
 		todos.update((todos) => [...todos, data[0]]);
+	} else {
+		console.log('no data');
 	}
 }
 
@@ -75,9 +74,20 @@ export async function deleteTodos(id) {
 /**
  * updates the todos using id
  * @param {number} id
+ * @param {boolean} todoIsDone
  * @returns {Promise<void>}
  */
-export async function updateToggleTodos(id) {
+export async function updateToggleTodos(id, todoIsDone) {
+	const { data, error } = await supabase
+		.from('todos')
+		.update({ is_done: !todoIsDone })
+		.match({ id: id })
+		.select();
+
+	if (error) {
+		console.error(error);
+	}
+
 	todos.update((todos) => {
 		return todos.map((todo) => {
 			if (todo.id === id) {
