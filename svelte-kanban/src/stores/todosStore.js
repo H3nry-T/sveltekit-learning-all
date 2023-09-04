@@ -40,7 +40,7 @@ export async function loadTodos() {
 export async function addTodos(todo, userId = 'test') {
 	const { data, error } = await supabase
 		.from('todos')
-		.insert([{ title: todo.title, is_done: false }])
+		.insert([{ title: todo.title, is_done: false, user_id: userId }])
 		.select();
 
 	if (error) {
