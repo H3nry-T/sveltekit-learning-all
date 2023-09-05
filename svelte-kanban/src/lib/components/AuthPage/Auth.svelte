@@ -3,6 +3,7 @@
 	import GoogleIcon from '$lib/components/AuthPage/GoogleIcon.svelte';
 	import SeperatorWithText from './SeperatorWithText.svelte';
 	import TermsAndConditions from './TermsAndConditions.svelte';
+	import AuthHero from './AuthHero.svelte';
 
 	let loading = false;
 
@@ -45,24 +46,7 @@
 </script>
 
 <section class="flex flex-col justify-center min-h-screen">
-	<section class="flex justify-center w-full pt-10">
-		<div class="relative mb-4">
-			<div
-				class="absolute inset-0.5 bg-gradient-to-tl from-blue-600 to-orange-500 filter blur-md animate-pulse opacity-90"
-			>
-				content
-			</div>
-			<div class="relative bg-gray-200 rounded-lg filter invert">
-				<img src="/ice-cube-svgrepo-com-3.svg" class="w-40 h-40" alt="logo" />
-			</div>
-		</div>
-	</section>
-
-	<h1
-		class="mt-4 text-lg font-extrabold tracking-wide text-center text-transparent uppercase md:text-2xl bg-clip-text bg-gradient-to-r from-blue-500 to-orange-600 filter saturate-200"
-	>
-		create an account
-	</h1>
+	<AuthHero />
 
 	<form on:submit|preventDefault={handleMagicLinkLogin} class="w-full max-w-3xl p-4 mx-auto mt-5">
 		<fieldset class="relative block max-w-md mx-auto">
