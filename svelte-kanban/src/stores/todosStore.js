@@ -44,8 +44,8 @@ export async function addTodos(todo, userId = 'test') {
 		.select();
 
 	if (error) {
-		console.error(error, data);
-		console.log('something is wrong');
+		console.log(error);
+		console.log(data);
 	}
 
 	if (data) {

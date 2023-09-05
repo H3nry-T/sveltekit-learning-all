@@ -1,4 +1,5 @@
 <script>
+	import { userStore } from '../stores/authStore';
 	import { addTodos, deleteTodos, todos, updateToggleTodos } from '../stores/todosStore';
 
 	let form = {
@@ -29,7 +30,8 @@
 				class="px-2 py-1 bg-blue-500 rounded-lg hover:bg-blue-700 active:bg-blue-800"
 				on:click={async () => {
 					if (form.title.length > 0) {
-						await addTodos(form);
+						await addTodos(form, $userStore?.id);
+
 						form.title = '';
 					}
 				}}>submit</button
@@ -48,7 +50,7 @@
 					checked={todo.is_done}
 					on:change={() => updateToggleTodos(todo.id, todo.is_done)}
 				/>
-				<p class={todo.is_done ? 'line-through' : null}>title: {todo.title}</p>
+				<p class={todo.is_done ? 'line-through' : null}>{todo.title}</p>
 				<button
 					class="px-1 py-2 ml-auto leading-none text-red-900 bg-red-300 rounded-lg"
 					on:click={() => deleteTodos(todo.id)}>🗑️</button

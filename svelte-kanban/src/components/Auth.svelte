@@ -6,7 +6,23 @@
 
 	let email = '';
 
-	async function handleLogin() {
+	async function handleMagicLinkLogin() {
+		loading = true;
+		try {
+			const { error } = await supabase.auth.signInWithOtp({ email });
+			if (error) {
+				console.error(error);
+				throw error;
+			}
+			alert(`please check your email inbox at ${email}`);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function handleGoogleLogin() {
 		try {
 			loading = true;
 			const { error } = await supabase.auth.signInWithOAuth({
@@ -46,7 +62,7 @@
 		create an account
 	</h1>
 
-	<form on:submit|preventDefault={handleLogin} class="w-full max-w-3xl p-4 mx-auto mt-5">
+	<form on:submit|preventDefault class="w-full max-w-3xl p-4 mx-auto mt-5">
 		<fieldset class="relative block max-w-md mx-auto">
 			<input
 				class="w-full p-0 px-2 py-1 mt-6 placeholder-transparent rounded-lg peer placeholder-shown:mt-0"
@@ -59,12 +75,12 @@
 			/>
 			<label
 				for="email"
-				class="block text-gray-800 font-base text-transparent absolute top-[-25px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
+				class="block cursor-text text-gray-800 font-base text-transparent absolute top-[-25px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
 				>www.example@mail.com</label
 			>
 			<label
 				for="email"
-				class="block font-semibold text-lg peer-placeholder-shown:text-transparent text-gray-800 absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
+				class="block font-semibold text-lg pointer-events-none peer-placeholder-shown:text-transparent text-gray-800 absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
 				>Email:</label
 			>
 			<button
@@ -72,6 +88,7 @@
 					? 'bg-red-800'
 					: 'bg-gray-800'} "
 				disabled={loading ? true : false}
+				on:click={handleMagicLinkLogin}
 			>
 				<span class="block transition-all duration-75 ease-linear scale-125 group-hover:scale-150"
 					>&rarr;</span
@@ -82,6 +99,7 @@
 				>
 			</button>
 		</fieldset>
+
 		<section class="relative flex mt-32 mb-5 font-light uppercase">
 			<div class="absolute inset-0 flex items-center">
 				<span class="w-[80%] border-t border-gray-600 block mx-auto" />
@@ -94,17 +112,18 @@
 				? 'bg-red-500'
 				: 'bg-gray-800'} "
 			disabled={loading ? true : false}
+			on:click={handleGoogleLogin}
 			><GoogleIcon width={20} height={20} /><span class="pl-4 ml-4 leading-none">
 				google</span
 			></button
 		>
-		<p
-			class="absolute mt-10 leading-5 text-center text-gray-500 bottom-10 left-[50%] -translate-x-1/2"
-		>
-			By clicking continue,<br /> you agree to our
-			<a href="/" class="text-gray-900 underline hover:text-gray-500">Terms of Service</a>
-			and
-			<a href="/" class="text-gray-900 underline hover:text-gray-500">Privacy Policy.</a>
-		</p>
 	</form>
+	<p
+		class="absolute mt-10 leading-5 text-center text-gray-500 bottom-10 left-[50%] -translate-x-1/2"
+	>
+		By clicking continue,<br /> you agree to our
+		<a href="/" class="text-gray-900 underline hover:text-gray-500">Terms of Service</a>
+		and
+		<a href="/" class="text-gray-900 underline hover:text-gray-500">Privacy Policy.</a>
+	</p>
 </section>
