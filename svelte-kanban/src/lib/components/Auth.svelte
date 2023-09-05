@@ -1,6 +1,6 @@
 <script>
 	import { supabase } from '../supabase';
-	import GoogleIcon from './GoogleIcon.svelte';
+	import GoogleIcon from '$lib/components/GoogleIcon.svelte';
 
 	let loading = false;
 
@@ -62,10 +62,10 @@
 		create an account
 	</h1>
 
-	<form on:submit|preventDefault class="w-full max-w-3xl p-4 mx-auto mt-5">
+	<form on:submit|preventDefault={handleMagicLinkLogin} class="w-full max-w-3xl p-4 mx-auto mt-5">
 		<fieldset class="relative block max-w-md mx-auto">
 			<input
-				class="w-full p-0 px-2 py-1 mt-6 placeholder-transparent rounded-lg peer placeholder-shown:mt-0"
+				class="w-full p-0 px-2 py-1 mt-6 placeholder-transparent border border-gray-300 rounded-lg shadow-sm peer placeholder-shown:mt-0"
 				type="email"
 				name="email"
 				id="email"
@@ -83,29 +83,30 @@
 				class="block font-semibold text-lg pointer-events-none peer-placeholder-shown:text-transparent text-gray-800 absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
 				>Email:</label
 			>
-			<button
-				class="group w-full flex justify-center px-3 py-2 mt-4 text-gray-100 rounded capitalize items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
-					? 'bg-red-800'
-					: 'bg-gray-800'} "
-				disabled={loading ? true : false}
-				on:click={handleMagicLinkLogin}
-			>
-				<span class="block transition-all duration-75 ease-linear scale-125 group-hover:scale-150"
-					>&rarr;</span
-				>
-				<span
-					class="block pl-4 ml-4 leading-none transition-all duration-75 ease-linear group-hover:leading-5 group-hover:text-transparent from-blue-500 to-orange-500 bg-clip-text bg-gradient-to-r group-hover:font-semibold"
-					>sign-in</span
-				>
-			</button>
 		</fieldset>
+		<button
+			class="group max-w-md mx-auto w-full flex justify-center px-3 py-2 mt-4 text-gray-100 rounded capitalize items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
+				? 'bg-red-800'
+				: 'bg-gray-800'} "
+			disabled={loading ? true : false}
+		>
+			<span class="block transition-all duration-75 ease-linear scale-125 group-hover:scale-150"
+				>&rarr;</span
+			>
+			<span
+				class="block pl-4 ml-4 leading-none transition-all duration-75 ease-linear group-hover:leading-5 group-hover:text-transparent from-blue-500 to-orange-500 bg-clip-text bg-gradient-to-r group-hover:font-semibold"
+				>sign-in</span
+			>
+		</button>
+	</form>
 
-		<section class="relative flex mt-32 mb-5 font-light uppercase">
+	<section>
+		<div id="seperator" class="relative flex mb-5 font-light uppercase mt-28">
 			<div class="absolute inset-0 flex items-center">
 				<span class="w-[80%] border-t border-gray-600 block mx-auto" />
 			</div>
 			<h3 class="relative block px-4 mx-auto bg-gray-100">or continue using</h3>
-		</section>
+		</div>
 
 		<button
 			class=" px-3 py-2 mx-auto mt-1 text-gray-100 rounded capitalize flex items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
@@ -117,10 +118,9 @@
 				google</span
 			></button
 		>
-	</form>
-	<p
-		class="absolute mt-10 leading-5 text-center text-gray-500 bottom-10 left-[50%] -translate-x-1/2"
-	>
+	</section>
+
+	<p class="absolute leading-5 text-center text-gray-500 bottom-10 left-[50%] -translate-x-1/2">
 		By clicking continue,<br /> you agree to our
 		<a href="/" class="text-gray-900 underline hover:text-gray-500">Terms of Service</a>
 		and

@@ -1,6 +1,6 @@
 <script>
-	import { userStore } from '../stores/authStore';
-	import { addTodos, deleteTodos, todos, updateToggleTodos } from '../stores/todosStore';
+	import { userStore } from '$lib/stores/authStore';
+	import { addTodos, deleteTodos, todos, updateToggleTodos } from '$lib/stores/todosStore';
 
 	let form = {
 		title: ''

@@ -1,9 +1,9 @@
 <script>
 	import '../app.css';
-	import Auth from '../components/Auth.svelte';
-	import { userStore } from '../stores/authStore';
-	import { loadTodos } from '../stores/todosStore';
-	import { supabase } from '../supabase';
+	import Auth from '../lib/components/Auth.svelte';
+	import { userStore } from '../lib/stores/authStore';
+	import { loadTodos } from '../lib/stores/todosStore';
+	import { supabase } from '../lib/supabase';
 
 	async function handleSignOut() {
 		const { error } = await supabase.auth.signOut();
