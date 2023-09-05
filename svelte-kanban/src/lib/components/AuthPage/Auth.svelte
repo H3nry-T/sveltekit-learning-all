@@ -1,6 +1,8 @@
 <script>
-	import { supabase } from '../supabase';
-	import GoogleIcon from '$lib/components/GoogleIcon.svelte';
+	import { supabase } from '../../supabase';
+	import GoogleIcon from '$lib/components/AuthPage/GoogleIcon.svelte';
+	import SeperatorWithText from './SeperatorWithText.svelte';
+	import TermsAndConditions from './TermsAndConditions.svelte';
 
 	let loading = false;
 
@@ -23,8 +25,8 @@
 	}
 
 	async function handleGoogleLogin() {
+		loading = true;
 		try {
-			loading = true;
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'google'
 			});
@@ -42,7 +44,7 @@
 	}
 </script>
 
-<section class="min-h-screen">
+<section class="flex flex-col justify-center min-h-screen">
 	<section class="flex justify-center w-full pt-10">
 		<div class="relative mb-4">
 			<div
@@ -85,8 +87,9 @@
 			>
 		</fieldset>
 		<button
+			type="submit"
 			class="group max-w-md mx-auto w-full flex justify-center px-3 py-2 mt-4 text-gray-100 rounded capitalize items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
-				? 'bg-red-800'
+				? 'bg-muted-foreground'
 				: 'bg-gray-800'} "
 			disabled={loading ? true : false}
 		>
@@ -101,16 +104,12 @@
 	</form>
 
 	<section>
-		<div id="seperator" class="relative flex mb-5 font-light uppercase mt-28">
-			<div class="absolute inset-0 flex items-center">
-				<span class="w-[80%] border-t border-gray-600 block mx-auto" />
-			</div>
-			<h3 class="relative block px-4 mx-auto bg-gray-100">or continue using</h3>
-		</div>
+		<SeperatorWithText text="or continue with" />
 
 		<button
+			type="button"
 			class=" px-3 py-2 mx-auto mt-1 text-gray-100 rounded capitalize flex items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
-				? 'bg-red-500'
+				? 'bg-muted-foreground'
 				: 'bg-gray-800'} "
 			disabled={loading ? true : false}
 			on:click={handleGoogleLogin}
@@ -120,10 +119,5 @@
 		>
 	</section>
 
-	<p class="absolute leading-5 text-center text-gray-500 bottom-10 left-[50%] -translate-x-1/2">
-		By clicking continue,<br /> you agree to our
-		<a href="/" class="text-gray-900 underline hover:text-gray-500">Terms of Service</a>
-		and
-		<a href="/" class="text-gray-900 underline hover:text-gray-500">Privacy Policy.</a>
-	</p>
+	<TermsAndConditions />
 </section>

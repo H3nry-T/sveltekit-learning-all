@@ -1,4 +1,6 @@
 <script>
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/authStore';
 	import { addTodos, deleteTodos, todos, updateToggleTodos } from '$lib/stores/todosStore';
 
@@ -12,30 +14,30 @@
 	<section class="flex flex-col">
 		<h2>kanban section goes here</h2>
 		<form
-			class="flex items-center justify-center w-full max-w-2xl gap-4 p-4 mx-auto text-gray-100 bg-gray-800 rounded-lg"
+			class="flex items-center justify-center w-full max-w-2xl gap-4 p-4 mx-auto text-gray-100 rounded-lg bg-card text-card-foreground"
+			on:submit|preventDefault
 		>
-			<fieldset class="flex items-center gap-4">
-				<label class="text-lg font-semibold capitalize" for="title">title</label>
-				<input
-					class="w-full max-w-md px-2 py-0 text-gray-800 rounded-lg"
+			<fieldset class="flex items-center w-full gap-4">
+				<Input
+					class="w-full max-w-2xl py-0"
+					bind:value={form.title}
 					type="text"
 					name="title"
 					id="title"
-					bind:value={form.title}
 					required
+					placeholder="Add todo here"
 				/>
-			</fieldset>
-			<button
-				type="submit"
-				class="px-2 py-1 bg-blue-500 rounded-lg hover:bg-blue-700 active:bg-blue-800"
-				on:click={async () => {
-					if (form.title.length > 0) {
-						await addTodos(form, $userStore?.id);
+				<Button
+					class="py-0"
+					on:click={async () => {
+						if (form.title.length > 0) {
+							await addTodos(form, $userStore?.id);
 
-						form.title = '';
-					}
-				}}>submit</button
-			>
+							form.title = '';
+						}
+					}}>submit</Button
+				>
+			</fieldset>
 		</form>
 	</section>
 	<section class="flex flex-col max-w-2xl gap-4 p-8 mx-auto mt-10 bg-gray-300 rounded-lg">

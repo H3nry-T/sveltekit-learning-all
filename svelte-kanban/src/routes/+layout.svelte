@@ -1,9 +1,15 @@
 <script>
+	import ColorPalette from '$lib/components/ColorPalette.svelte';
+	import ToggleLightDarkMode from '$lib/components/ToggleLightDarkMode.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
 	import '../app.css';
-	import Auth from '../lib/components/Auth.svelte';
+	import Auth from '../lib/components/AuthPage/Auth.svelte';
 	import { userStore } from '../lib/stores/authStore';
 	import { loadTodos } from '../lib/stores/todosStore';
 	import { supabase } from '../lib/supabase';
+
+	import { Sun } from 'lucide-svelte';
 
 	async function handleSignOut() {
 		const { error } = await supabase.auth.signOut();
@@ -33,15 +39,16 @@
 	loadUser();
 </script>
 
-<section class="text-gray-800 bg-gray-100">
+<section>
 	{#if $userStore}
-		<nav class="p-10">
-			<button class="block p-4 ml-auto text-red-900 bg-red-300 rounded-lg" on:click={handleSignOut}
-				>signout
-			</button>
+		<nav class="flex items-center justify-between w-full gap-4 p-10">
+			<ToggleLightDarkMode />
+			<Button variant="secondary" on:click={handleSignOut}>signout</Button>
 		</nav>
 		<slot />
 	{:else}
 		<Auth />
 	{/if}
+
+	<ColorPalette />
 </section>
