@@ -6,7 +6,6 @@
 	import { supabase } from '../supabase';
 
 	async function handleSignOut() {
-		alert('logging out ');
 		const { error } = await supabase.auth.signOut();
 		userStore.set(null);
 	}
