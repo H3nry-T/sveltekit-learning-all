@@ -8,7 +8,7 @@
 	import { animateAddCard, playAddCardAnimation } from '$lib/stores/cardAnimationStore';
 	import { addTodos, loadTodos, todos, prevTodos, isDeleting } from '$lib/stores/todosStore';
 	import { Plus } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	let form = {
 		title: ''
@@ -56,11 +56,13 @@
 					ice-box
 				</h2>
 				{#each $todos.filter((t) => t.column_number === 1) as todo (todo.id)}
-					{#if todo.id === lastTodo.id}
-						<KanbanCard {todo} animateAddCard={$animateAddCard} />
-					{:else}
-						<KanbanCard {todo} />
-					{/if}
+					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
+						{#if todo.id === lastTodo.id}
+							<KanbanCard {todo} animateAddCard={$animateAddCard} />
+						{:else}
+							<KanbanCard {todo} />
+						{/if}
+					</div>
 				{/each}
 			</Card.Root>
 			<Card.Root class="flex flex-col w-full gap-4 p-5 pt-4 min-w-fit">
@@ -69,10 +71,10 @@
 				>
 					in-progress
 				</h2>
-				{#each $todos as todo (todo.id)}
-					{#if todo.column_number === 2}
+				{#each $todos.filter((t) => t.column_number === 2) as todo (todo.id)}
+					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
 						<KanbanCard {todo} />
-					{/if}
+					</div>
 				{/each}
 			</Card.Root>
 			<Card.Root class="flex flex-col w-full gap-4 p-5 pt-4 min-w-fit">
@@ -81,10 +83,10 @@
 				>
 					done
 				</h2>
-				{#each $todos as todo (todo.id)}
-					{#if todo.column_number === 3}
+				{#each $todos.filter((t) => t.column_number === 3) as todo (todo.id)}
+					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
 						<KanbanCard {todo} />
-					{/if}
+					</div>
 				{/each}
 			</Card.Root>
 		</section>

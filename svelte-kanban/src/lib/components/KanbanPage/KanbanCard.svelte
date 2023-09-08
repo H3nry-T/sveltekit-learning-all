@@ -35,10 +35,10 @@
 >
 	<Button
 		variant="destructive"
-		class="absolute top-1 right-1 h-[25px] p-0 bg-clip-text"
+		class="absolute top-1 right-1 h-[25px] p-0 bg-clip-text group"
 		size="default"
 		on:click={() => deleteTodos(todo.id)}
-		><X class="text-primary" />
+		><X class="transition-all duration-100 ease-in-out text-primary group-hover:text-destructive" />
 	</Button>
 
 	<section class="flex">
