@@ -1,14 +1,17 @@
 <section class="relative flex flex-col items-center w-full pt-10">
 	<div
-		class="absolute bg-blue-500 left-[40%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 animation-delay-1000"
+		class="absolute pointer-events-none bg-blue-500 left-[40%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		style="animation-delay: 1s;"
 	/>
 	<div
-		class="absolute bg-orange-500 left-[50%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 animation-delay-4000"
+		class="absolute pointer-events-none bg-orange-500 left-[50%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		style="animation-delay: 4s;"
 	/>
 	<div
-		class="absolute bg-purple-500 left-[45%] top-[25%] w-64 z-[1] h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 animation-delay-3000"
+		class="absolute pointer-events-none bg-purple-500 left-[45%] top-[25%] w-64 z-[1] h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		style="animation-delay: 2s;"
 	/>
-	<div class="relative mb-4 z-[1]">
+	<div class="relative mb-4 z-[0]">
 		<div
 			class="absolute inset-0 bg-gradient-to-tl from-blue-600 to-orange-500 filter blur-md animate-pulse"
 		/>
