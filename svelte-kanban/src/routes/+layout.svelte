@@ -1,6 +1,7 @@
 <script>
 	import ColorPalette from '$lib/components/ColorPalette.svelte';
 	import ToggleLightDarkMode from '$lib/components/ToggleLightDarkMode.svelte';
+	import CardTransition from '$lib/components/animation/CardTransition.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import '../app.css';
 	import Auth from '../lib/components/AuthPage/Auth.svelte';
@@ -40,11 +41,13 @@
 
 <section>
 	{#if $userStore}
-		<nav class="flex items-center justify-between w-full gap-4 p-10">
-			<ToggleLightDarkMode />
-			<Button variant="default" on:click={handleSignOut}><LogOut size={22} /></Button>
-		</nav>
-		<slot />
+		<CardTransition>
+			<nav class="flex items-center justify-between w-full gap-4 p-10">
+				<ToggleLightDarkMode />
+				<Button variant="default" on:click={handleSignOut}><LogOut size={22} /></Button>
+			</nav>
+			<slot />
+		</CardTransition>
 	{:else}
 		<Auth />
 	{/if}
