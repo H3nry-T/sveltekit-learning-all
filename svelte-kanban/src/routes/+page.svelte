@@ -4,28 +4,13 @@
 	import * as Card from '$lib/components/ui/card';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/authStore';
+	import { animateAddCard, playAddCardAnimation } from '$lib/stores/cardAnimationStore';
 	import { addTodos, todos } from '$lib/stores/todosStore';
 	import { Plus } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
 
 	let form = {
 		title: ''
 	};
-	/**
-	 * @type {boolean} animateAddCard;
-	 */
-	let animateAddCard = false;
-
-	/**
-	 * starts the animation for when adding a new todo card
-	 * @param {number} duration - milliseconds
-	 */
-	function playAddCardAnimation(duration) {
-		animateAddCard = true;
-		const clearTimeout = setTimeout(() => {
-			animateAddCard = false;
-		}, duration);
-	}
 </script>
 
 <section class="min-w-full min-h-screen px-5 md:px-20">
@@ -72,8 +57,8 @@
 				</h2>
 				{#each $todos as todo (todo.id)}
 					{#if todo.column_number === 1}
-						{#if todo.id === $todos[$todos.length - 1].id && animateAddCard}
-							<KanbanCard {todo} {animateAddCard} />
+						{#if todo.id === $todos[$todos.length - 1].id}
+							<KanbanCard {todo} animateAddCard={$animateAddCard} />
 						{:else}
 							<KanbanCard {todo} />
 						{/if}
