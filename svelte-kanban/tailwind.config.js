@@ -65,13 +65,13 @@ const config = {
 						transform: 'translate(0px, 0px) scale(1)'
 					},
 					'25%': {
-						transform: 'translate(20px, -40px) scale(1.2)'
+						transform: 'translate(20px, -90px) scale(1.2)'
 					},
 					'50%': {
 						transform: 'translate(-20px, 20px) scale(0.9)'
 					},
 					'75%': {
-						transform: 'translate(20px, 20px) scale(1)'
+						transform: 'translate(20px, 20px) scale(1.05)'
 					},
 					'100%': {
 						transform: 'translate(0px, 0) scale(1)'
