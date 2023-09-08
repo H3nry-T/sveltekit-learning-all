@@ -28,7 +28,9 @@ export async function loadTodos() {
 		console.error(error);
 	}
 
-	console.log('supabase read and load into svelte store');
+	console.log(`supabase read and load into svelte store`);
+	console.debug(data);
+	console.log(data?.[data.length - 1]);
 	todos.set(/** @type {Todo[]} */ (data));
 }
 
