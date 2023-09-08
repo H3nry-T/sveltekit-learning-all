@@ -16,21 +16,18 @@
 	 */
 	export let animateAddCard = false;
 
-	/**
-	 * @type {boolean} animateEdit
-	 */
-	let animateEdit = false;
-	function playEditAnimation() {
-		animateEdit = true;
+	let animateToggle = false;
+	function playAnimation(duration = 500) {
+		animateToggle = true;
 		const clearTimeout = setTimeout(() => {
-			animateEdit = false;
-		}, 500);
+			animateToggle = false;
+		}, duration);
 	}
 </script>
 
 <Card.Root
 	class="min-w-fit  transition-all duration-300 ease-in-out relative  
-	{animateEdit ? 'border-accent-foreground' : null}
+	{animateToggle ? 'border-accent-foreground' : null}
 	{animateAddCard ? ' border-green-700' : null}
 	"
 >
@@ -63,7 +60,7 @@
 				checked={todo.is_done || todo.column_number === 3}
 				onCheckedChange={() => {
 					updateToggleTodos(todo.id, todo.is_done);
-					playEditAnimation();
+					playAnimation();
 				}}
 				class="self-center"
 			/>
@@ -85,18 +82,3 @@
 		</div>
 	</Card.Footer>
 </Card.Root>
-
-<style>
-	.animate-slide-in {
-		animation: slideIn 500ms ease-in;
-	}
-
-	@keyframes slideIn {
-		0% {
-			transform: translateY(100px);
-		}
-		100% {
-			transform: translateY(0);
-		}
-	}
-</style>
