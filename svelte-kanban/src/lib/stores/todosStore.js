@@ -35,6 +35,20 @@ export async function loadTodos() {
 }
 
 /**
+ * get todo from database using id
+ * @param {number} id - number
+ * @returns {Promise<Todo>}
+ */
+export async function getTodosById(id) {
+	const { data, error } = await supabase.from('todos').select().match({ id });
+
+	if (error) {
+		console.error(error);
+		throw error;
+	}
+	return data?.[0];
+}
+/**
  * @param {{title: string}} todo
  * @param {string} userId
  * @returns {Promise<void>}
