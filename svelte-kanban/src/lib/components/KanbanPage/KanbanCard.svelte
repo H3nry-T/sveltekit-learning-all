@@ -30,8 +30,8 @@
 
 <Card.Root
 	class="min-w-fit  transition-all duration-300 ease-in-out relative  
-	{animateEdit ? 'border border-accent-foreground' : null}
-	{animateAddCard ? 'border border-green-700 -translate-y-0 opacity-100' : null}
+	{animateEdit ? 'border-accent-foreground' : null}
+	{animateAddCard ? ' border-green-700' : null}
 	"
 >
 	<Button
