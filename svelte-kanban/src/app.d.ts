@@ -9,4 +9,13 @@ declare global {
 	}
 }
 
+interface Todo {
+	column_number: number;
+	created_at: string;
+	id: number;
+	is_done: boolean;
+	title: string;
+	user_id: string;
+}
+
 export {};
