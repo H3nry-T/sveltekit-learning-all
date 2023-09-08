@@ -4,6 +4,7 @@
 	import SeperatorWithText from './SeperatorWithText.svelte';
 	import TermsAndConditions from './TermsAndConditions.svelte';
 	import AuthHero from './AuthHero.svelte';
+	import InputFancy from '../InputFancy.svelte';
 
 	let loading = false;
 
@@ -49,27 +50,17 @@
 	<AuthHero />
 
 	<form on:submit|preventDefault={handleMagicLinkLogin} class="w-full max-w-3xl p-4 mx-auto mt-5">
-		<fieldset class="relative block max-w-md mx-auto">
-			<input
-				class="w-full p-0 px-2 py-1 mt-6 placeholder-transparent border border-gray-300 rounded-lg shadow-sm peer placeholder-shown:mt-0"
-				type="email"
-				name="email"
-				id="email"
-				required
-				bind:value={email}
-				placeholder="email"
-			/>
-			<label
-				for="email"
-				class="block cursor-text text-gray-800 font-base text-transparent absolute top-[-25px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
-				>www.example@mail.com</label
-			>
-			<label
-				for="email"
-				class="block font-semibold text-lg pointer-events-none peer-placeholder-shown:text-transparent text-gray-800 absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
-				>Email:</label
-			>
-		</fieldset>
+		<InputFancy
+			placeholderFancy="johnDoe@email.com"
+			labelFancy="email:"
+			classLabel="font-base tracking-wide text-base capitalize"
+			className="mt-20"
+			type="email"
+			id="email"
+			required
+			bind:value={email}
+			placeholder="email"
+		/>
 		<button
 			type="submit"
 			class="group max-w-md mx-auto w-full flex justify-center px-3 py-2 mt-4 text-gray-100 rounded capitalize items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
@@ -87,21 +78,19 @@
 		</button>
 	</form>
 
-	<section>
-		<SeperatorWithText text="or continue with" />
+	<SeperatorWithText text="or continue with" />
 
-		<button
-			type="button"
-			class=" px-3 py-2 mx-auto mt-1 text-gray-100 rounded capitalize flex items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
-				? 'bg-muted-foreground'
-				: 'bg-gray-800'} "
-			disabled={loading ? true : false}
-			on:click={handleGoogleLogin}
-			><GoogleIcon width={20} height={20} /><span class="pl-4 ml-4 leading-none">
-				google</span
-			></button
-		>
-	</section>
+	<button
+		type="button"
+		class=" px-3 py-2 mx-auto mt-1 text-gray-100 rounded capitalize flex items-center divide-x divide-gray-100 hover:bg-gray-700 active:bg-gray-950 {loading
+			? 'bg-muted-foreground'
+			: 'bg-gray-800'} "
+		disabled={loading ? true : false}
+		on:click={handleGoogleLogin}
+		><GoogleIcon width={20} height={20} /><span class="pl-4 ml-4 leading-none">
+			google</span
+		></button
+	>
 
 	<TermsAndConditions />
 </section>
