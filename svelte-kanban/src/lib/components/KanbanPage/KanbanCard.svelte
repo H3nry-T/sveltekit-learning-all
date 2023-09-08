@@ -5,6 +5,8 @@
 	import { Checkbox } from '$lib/components/ui/checkbox/index';
 	import { deleteTodos, updateToggleTodos } from '$lib/stores/todosStore';
 	import { X } from 'lucide-svelte';
+	import { fade } from 'svelte/transition';
+	import CardTransition from '../animation/CardTransition.svelte';
 
 	/**
 	 * @type {import('$lib/stores/todosStore').Todo} todo
@@ -28,7 +30,7 @@
 <Card.Root
 	class="min-w-fit  transition-all duration-300 ease-in-out relative  
 	{animateToggle ? 'border-accent-foreground' : null}
-	{animateAddCard ? ' border-green-700' : null}
+	{animateAddCard ? 'border-accent-foreground' : null}
 	"
 >
 	<Button
