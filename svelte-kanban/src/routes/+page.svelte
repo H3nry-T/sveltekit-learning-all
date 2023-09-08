@@ -1,17 +1,23 @@
 <script>
 	import KanbanCard from '$lib/components/KanbanPage/KanbanCard.svelte';
+	import CardTransition from '$lib/components/animation/CardTransition.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/authStore';
 	import { animateAddCard, playAddCardAnimation } from '$lib/stores/cardAnimationStore';
-	import { addTodos, todos } from '$lib/stores/todosStore';
+	import { addTodos, loadTodos, todos, prevTodos, isDeleting } from '$lib/stores/todosStore';
 	import { Plus } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 
 	let form = {
 		title: ''
 	};
+
+	/**
+	 * @type {import('$lib/stores/todosStore').Todo} lastTodo
+	 */
+	$: lastTodo = $todos[$todos.length - 1];
 </script>
 
 <section class="min-w-full min-h-screen px-5 md:px-20">
@@ -22,7 +28,7 @@
 		on:submit|preventDefault={async () => {
 			if (form.title.length > 0) {
 				await addTodos(form, $userStore?.id);
-				playAddCardAnimation(1000);
+				playAddCardAnimation(500);
 				form.title = '';
 			}
 		}}
@@ -49,13 +55,11 @@
 				>
 					ice-box
 				</h2>
-				{#each $todos as todo (todo.id)}
-					{#if todo.column_number === 1}
-						{#if todo.id === $todos[$todos.length - 1].id}
-							<KanbanCard {todo} animateAddCard={$animateAddCard} />
-						{:else}
-							<KanbanCard {todo} />
-						{/if}
+				{#each $todos.filter((t) => t.column_number === 1) as todo (todo.id)}
+					{#if todo.id === lastTodo.id}
+						<KanbanCard {todo} animateAddCard={$animateAddCard} />
+					{:else}
+						<KanbanCard {todo} />
 					{/if}
 				{/each}
 			</Card.Root>
