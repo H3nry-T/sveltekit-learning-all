@@ -7,6 +7,7 @@
 	import { animateAddCard, playAddCardAnimation } from '$lib/stores/cardAnimationStore';
 	import { addTodos, todos } from '$lib/stores/todosStore';
 	import { Plus } from 'lucide-svelte';
+	import { fade } from 'svelte/transition';
 
 	let form = {
 		title: ''
@@ -36,14 +37,7 @@
 				required
 				placeholder="Add todo"
 			/>
-			<Button
-				on:click={() => {
-					if (form.title.length > 0) playAddCardAnimation(1000);
-				}}
-				class="py-0"
-				size={'icon'}
-				type="submit"><Plus /></Button
-			>
+			<Button class="py-0" size={'icon'} type="submit"><Plus /></Button>
 		</fieldset>
 	</form>
 
