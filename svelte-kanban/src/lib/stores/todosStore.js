@@ -51,6 +51,7 @@ export async function getTodosById(id) {
 	return data?.[0];
 }
 /**
+ * inserts todo into the end of database
  * @param {{title: string}} todo
  * @param {string} userId
  * @returns {Promise<void>}
@@ -65,13 +66,12 @@ export async function addTodos(todo, userId = 'test') {
 		console.log(error);
 		console.log(data);
 	}
-	console.log('supabase insert complete');
 
 	if (data) {
 		todos.update((todos) => {
 			return [...todos, data[0]];
 		});
-		console.log('todos store updated');
+		console.log('todos store appended new todo');
 	} else {
 		console.log('no data');
 	}
@@ -91,6 +91,7 @@ export async function deleteTodos(id) {
 	todos.update((todos) => {
 		return todos.filter((todo) => todo.id !== id);
 	});
+	console.log(`${id} todo deleted`);
 }
 
 /**
@@ -109,6 +110,8 @@ export async function updateToggleTodos(id, todoIsDone) {
 	if (error) {
 		console.error(error);
 	}
+
+	console.log(`${id} todo toggled ${!todoIsDone}`);
 
 	todos.update((todos) => {
 		return todos.map((todo) => {
