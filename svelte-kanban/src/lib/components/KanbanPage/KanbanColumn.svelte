@@ -15,7 +15,7 @@
 	/**
 	 * @type {number} columnNumber
 	 */
-	export let columnNumber = 1;
+	export let columnNumber;
 
 	/**
 	 *
@@ -30,14 +30,26 @@
 	 * @param {number} id
 	 * @param {number} columnNumber
 	 */
-	function handleFinalize(id, columnNumber) {
-		/**
-		 * @param {CustomEvent<import('svelte-dnd-action').DndEvent<import('$lib/stores/todosStore').Todo>>} e
-		 */
-		return async (e) => {
-			await updateColumnNumber(id, columnNumber);
+
+	/**
+	 * @param {CustomEvent<import('svelte-dnd-action').DndEvent<import('$lib/stores/todosStore').Todo>>} e
+	 */
+	async function handleFinalize(e) {
+		try {
 			list = e.detail.items;
-		};
+			const id = +e.detail.info.id;
+			console.log(id);
+			console.log(columnNumber);
+			const draggedTodo = $todos.find((todo) => {
+				return todo.id === id;
+			});
+			if (!(draggedTodo?.column_number === columnNumber)) {
+				await updateColumnNumber(id, columnNumber);
+			}
+		} catch (error) {
+			console.log(error);
+			throw new Error(`${error}`);
+		}
 	}
 
 	/**
@@ -61,12 +73,12 @@
 				use:dndzone={{ items: list, flipDurationMs }}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
-				class="flex flex-col gap-4"
+				class="flex flex-col gap-4 min-h-[100px] pb-10"
 			>
 				{#each list as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
 						{#if todo.id === lastTodo.id}
-							<KanbanCard {todo} animateAddCard={$animateAddCard} />
+							<KanbanCard {todo} isLast={true} />
 						{:else}
 							<KanbanCard {todo} />
 						{/if}
@@ -78,7 +90,7 @@
 				use:dndzone={{ items: list, flipDurationMs }}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
-				class="flex flex-col gap-4"
+				class="flex flex-col gap-4 min-h-[100px] pb-10"
 			>
 				{#each list as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
