@@ -26,7 +26,7 @@
 		.sort((a, b) => a.row_number - b.row_number);
 </script>
 
-<section class="min-w-full min-h-screen px-5 md:px-20">
+<section class="min-w-full min-h-screen px-5 md:px-10 lg:px-20">
 	<div
 		class="absolute opacity-50 pointer-events-none w-64 h-64 l-0 t-0 filter blur-3xl bg-gradient-to-tr from-blue-500 via-purple-500 to-orange-500 z-[-1]"
 	/>
@@ -56,8 +56,8 @@
 		</fieldset>
 	</form>
 
-	<section class="pb-10 overflow-x-scroll lg:overflow-x-auto">
-		<section class="grid items-start grid-cols-3 gap-4 mt-10 min-w-[1000px]">
+	<section class="pb-10">
+		<section class="grid items-start grid-cols-1 gap-4 mt-10 md:grid-cols-3">
 			<KanbanColumn list={column1} columnNumber={1} />
 			<KanbanColumn list={column2} columnNumber={2} />
 			<KanbanColumn list={column3} columnNumber={3} />

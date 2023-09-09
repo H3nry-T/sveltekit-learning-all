@@ -54,7 +54,7 @@
 			<Auth />
 		{:else}
 			<CardTransition>
-				<nav class="flex items-center justify-between w-full gap-4 p-10">
+				<nav class="flex items-center justify-between w-full gap-4 px-4 py-5 md:p-10">
 					<ToggleLightDarkMode />
 					<Button variant="default" on:click={handleSignOut}><LogOut size={22} /></Button>
 				</nav>
@@ -102,5 +102,4 @@
 			</section>
 		</section>
 	{/if}
-	<!-- <ColorPalette /> -->
 </section>
