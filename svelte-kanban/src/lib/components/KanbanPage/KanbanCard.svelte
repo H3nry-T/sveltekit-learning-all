@@ -3,6 +3,7 @@
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Card from '$lib/components/ui/card/index';
 	import { Checkbox } from '$lib/components/ui/checkbox/index';
+	import { animateAddCard } from '$lib/stores/cardAnimationStore';
 	import { deleteTodos, updateToggleTodos } from '$lib/stores/todosStore';
 	import { FileEdit, X } from 'lucide-svelte';
 
@@ -13,10 +14,7 @@
 
 	export let outsideAnimateToggle = false;
 
-	/**
-	 * @type {boolean} animateAddCard
-	 */
-	export let animateAddCard = false;
+	export let isLast = false;
 
 	let animateToggle = false;
 	function playAnimation(duration = 500) {
@@ -30,7 +28,7 @@
 <Card.Root
 	class="min-w-fit  transition-all duration-300 ease-in-out relative  
 	{animateToggle ? 'border-accent-foreground' : null}
-	{animateAddCard ? 'border-accent-foreground' : null}
+	{$animateAddCard && isLast ? 'border-accent-foreground' : null}
 	{outsideAnimateToggle ? 'border-accent-foreground' : null}
 	"
 >
