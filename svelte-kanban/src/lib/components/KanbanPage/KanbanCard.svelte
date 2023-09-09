@@ -4,9 +4,7 @@
 	import * as Card from '$lib/components/ui/card/index';
 	import { Checkbox } from '$lib/components/ui/checkbox/index';
 	import { deleteTodos, updateToggleTodos } from '$lib/stores/todosStore';
-	import { X } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
-	import CardTransition from '../animation/CardTransition.svelte';
+	import { FileEdit, X } from 'lucide-svelte';
 
 	/**
 	 * @type {import('$lib/stores/todosStore').Todo} todo
@@ -33,40 +31,44 @@
 	{animateAddCard ? 'border-accent-foreground' : null}
 	"
 >
-	<Button
-		variant="destructive"
-		class="absolute top-1 right-1 h-[25px] p-0 bg-clip-text group"
-		size="default"
-		on:click={() => deleteTodos(todo.id)}
-		><X class="transition-all duration-100 ease-in-out text-primary group-hover:text-destructive" />
-	</Button>
+	<section class="absolute flex items-center gap-1 top-1 right-1">
+		<Checkbox
+			checked={todo.is_done}
+			onCheckedChange={() => {
+				updateToggleTodos(todo.id, todo.is_done);
+				playAnimation();
+			}}
+			class="grid self-center w-5 h-5 border place-items-center"
+		/>
+		<Button
+			class="p-0 h-[25px] w-[25px] leading-none border bg-card group hover:bg-gray-400/10"
+			size="icon"
+			variant="secondary"
+			><FileEdit
+				size={20}
+				class="transition-all duration-300 ease-in-out group-hover:text-gray-400"
+			/></Button
+		>
+		<Button
+			variant="destructive"
+			size="icon"
+			class="p-0 border group h-[25px] w-[25px] bg-card hover:bg-red-100"
+			on:click={() => deleteTodos(todo.id)}
+			><X class="transition-all duration-300 ease-in-out text-primary group-hover:text-red-900" />
+		</Button>
+	</section>
 
 	<section class="flex">
 		<Card.Header class="py-2 pl-3 max-w-[220px] 2xl:max-w-xs">
 			<Card.Title
-				class="text-base md:text-lg transition-colors duration-1000  ease-linear truncate first-letter:capitalize {todo.is_done ||
-				todo.column_number === 3
+				class="text-base md:text-lg transition-colors duration-1000  ease-linear truncate first-letter:capitalize {todo.is_done
 					? 'line-through text-muted-foreground'
 					: ''}">{todo.title}</Card.Title
 			>
-			<!-- {#if todo.description.length > 0}
-				<Card.Description class="truncate">
-					description here Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perferendis sed
-					nostrum non laborum esse voluptates, doloribus exercitationem dolor, ad atque id quas
-					velit inventore adipisci quod unde, pariatur quisquam dolorum!</Card.Description
-				>
-			{/if} -->
+			{#if todo.description.length > 0}
+				<Card.Description class="truncate">{todo.description}</Card.Description>
+			{/if}
 		</Card.Header>
-		<section class="flex justify-between w-full">
-			<Checkbox
-				checked={todo.is_done || todo.column_number === 3}
-				onCheckedChange={() => {
-					updateToggleTodos(todo.id, todo.is_done);
-					playAnimation();
-				}}
-				class="self-center"
-			/>
-		</section>
 	</section>
 	<Card.Footer class="flex items-center px-2 py-2">
 		<div class="">
