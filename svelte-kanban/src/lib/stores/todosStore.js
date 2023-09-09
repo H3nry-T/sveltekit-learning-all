@@ -139,7 +139,7 @@ export async function updateColumnNumber(id, columnNumber) {
 		console.error(error);
 	}
 
-	console.log(`${id} todo column number updated`);
+	console.log(`${id} todo column number to ${columnNumber}`);
 
 	todos.update((todos) => {
 		return todos.map((todo) => {
