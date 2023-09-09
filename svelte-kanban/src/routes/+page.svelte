@@ -6,7 +6,7 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/authStore';
 	import { animateAddCard, playAddCardAnimation } from '$lib/stores/cardAnimationStore';
-	import { addTodos, loadTodos, todos, prevTodos, isDeleting } from '$lib/stores/todosStore';
+	import { addTodos, loadTodos, todos } from '$lib/stores/todosStore';
 	import { Plus } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
 
@@ -21,10 +21,13 @@
 </script>
 
 <section class="min-w-full min-h-screen px-5 md:px-20">
-	<h1 class="mb-10 text-2xl font-semibold leading-7 capitalize md:text-4xl">svelte-kanban</h1>
+	<div
+		class="absolute opacity-50 pointer-events-none w-64 h-64 l-0 t-0 filter blur-3xl bg-gradient-to-tr from-blue-500 via-purple-500 to-orange-500 z-[-1]"
+	/>
+	<h1 class="mb-10 text-4xl font-semibold tracking-tight first-letter:capitalize">svelte-kanban</h1>
 
 	<form
-		class="flex items-center justify-center w-full max-w-sm gap-4 mb-5 rounded-lg bg-card text-card-foreground"
+		class="flex items-center justify-center w-full max-w-sm gap-4 mb-5 rounded-lg text-card-foreground"
 		on:submit|preventDefault={async () => {
 			if (form.title.length > 0) {
 				await addTodos(form, $userStore?.id);
@@ -35,7 +38,7 @@
 	>
 		<fieldset class="flex items-center w-full gap-4">
 			<Input
-				class="w-full max-w-2xl py-0"
+				class="w-full max-w-2xl py-0 bg-card"
 				bind:value={form.title}
 				type="text"
 				name="title"
@@ -43,7 +46,7 @@
 				required
 				placeholder="Add todo"
 			/>
-			<Button class="py-0" size={'icon'} type="submit"><Plus /></Button>
+			<Button class="py-0 border border-gray-600" size={'icon'} type="submit"><Plus /></Button>
 		</fieldset>
 	</form>
 
