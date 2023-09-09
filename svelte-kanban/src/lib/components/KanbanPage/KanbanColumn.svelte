@@ -3,7 +3,12 @@
 	import { fly } from 'svelte/transition';
 	import * as Card from '../ui/card/index';
 	import KanbanCard from './KanbanCard.svelte';
-	import { animateAddCard } from '$lib/stores/cardAnimationStore';
+	import {
+		animateAddCard,
+		finalizingCard,
+		playAddCardAnimation,
+		playFinalizeCardAnimation
+	} from '$lib/stores/cardAnimationStore';
 	import { dndzone } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 
@@ -34,6 +39,8 @@
 		try {
 			list = e.detail.items;
 			const id = +e.detail.info.id;
+			finalizingCard.set(id);
+			playFinalizeCardAnimation(500);
 			const draggedTodo = $todos.find((todo) => {
 				return todo.id === id;
 			});
@@ -54,7 +61,7 @@
 	}
 </script>
 
-<section class="min-h-screen">
+<section class="md:min-h-screen">
 	<Card.Root class="w-full p-5 pt-4 min-w-fit">
 		<h2
 			class="mb-4 text-xl font-semibold tracking-tight md:text-2xl first-letter:capitalize text-secondary-foreground"

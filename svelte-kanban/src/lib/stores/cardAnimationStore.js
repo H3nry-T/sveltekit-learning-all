@@ -15,6 +15,25 @@ export function playAddCardAnimation(duration) {
 		animateAddCard.set(false);
 	}, duration);
 }
+/**
+ * @type {import("svelte/store").Writable<boolean>} animateFinalizeCard;
+ */
+export const animateFinalizeCard = writable(false);
+
+/**
+ * @type {import("svelte/store").Writable<number>} finalizingCard;
+ */
+export const finalizingCard = writable(-1);
+/**
+ * starts the animation for when adding a new todo card
+ * @param {number} duration - milliseconds
+ */
+export function playFinalizeCardAnimation(duration) {
+	animateFinalizeCard.set(true);
+	const clearTimeout = setTimeout(() => {
+		animateFinalizeCard.set(false);
+	}, duration);
+}
 
 /**
  * ceates a animationToggle boolean that you can use to play an animation
