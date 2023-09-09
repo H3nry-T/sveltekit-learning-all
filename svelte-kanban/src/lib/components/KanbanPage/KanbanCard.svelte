@@ -35,14 +35,16 @@
 	"
 >
 	<section class="flex">
-		<Card.Header class="w-full p-0 pt-1 pl-2 pr-1">
+		<header class="w-full pt-1 pl-2 pr-1">
 			<div class="flex items-center justify-between">
-				<Card.Title
-					class="text-base min-w-min md:text-sm lg:text-lg transition-colors duration-1000  ease-linear truncate first-letter:capitalize {todo.is_done
+				<h4
+					class="text-base md:text-sm font-semibold md:w-[14vw] lg:text-lg transition-colors duration-1000 ease-linear truncate first-letter:capitalize {todo.is_done
 						? 'line-through text-muted-foreground'
-						: ''}">{todo.title}</Card.Title
+						: ''}"
 				>
-				<section class="flex items-center gap-1 top-1 right-1">
+					{todo.title}
+				</h4>
+				<section class="flex items-center gap-1">
 					<Checkbox
 						checked={todo.is_done}
 						onCheckedChange={() => {
@@ -74,7 +76,7 @@
 			{#if todo.description.length > 0}
 				<Card.Description class="truncate">{todo.description}</Card.Description>
 			{/if}
-		</Card.Header>
+		</header>
 	</section>
 	<Card.Footer class="flex items-center px-2 py-2">
 		<div class="">

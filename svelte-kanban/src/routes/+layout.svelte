@@ -51,6 +51,9 @@
 <section>
 	{#if !loading}
 		{#if !$userStore}
+			<nav class="flex items-center justify-between w-full gap-4 px-4 py-5 md:p-10">
+				<ToggleLightDarkMode />
+			</nav>
 			<Auth />
 		{:else}
 			<CardTransition>

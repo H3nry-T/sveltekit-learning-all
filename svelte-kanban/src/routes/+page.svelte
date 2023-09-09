@@ -26,9 +26,9 @@
 		.sort((a, b) => a.row_number - b.row_number);
 </script>
 
-<section class="min-w-full min-h-screen px-5 md:px-10 lg:px-20">
+<section class="min-w-full min-h-screen px-5 md:px-2 lg:px-20">
 	<div
-		class="absolute opacity-50 pointer-events-none w-64 h-64 l-0 t-0 filter blur-3xl bg-gradient-to-tr from-blue-500 via-purple-500 to-orange-500 z-[-1]"
+		class="absolute opacity-50 pointer-events-none w-64 h-64 l-0 t-0 filter blur-3xl bg-gradient-to-tr from-blue-500 via-purple-500 to-orange-500 z-[-1] animate-slowBlob"
 	/>
 	<h1 class="mb-10 text-4xl font-semibold tracking-tight first-letter:capitalize">svelte-kanban</h1>
 
@@ -57,7 +57,7 @@
 	</form>
 
 	<section class="pb-10">
-		<section class="grid items-start grid-cols-1 gap-4 mt-10 md:grid-cols-3">
+		<section class="grid items-start grid-cols-1 gap-4 mt-10 md:gap-1 md:grid-cols-3 lg:gap-4">
 			<KanbanColumn list={column1} columnNumber={1} />
 			<KanbanColumn list={column2} columnNumber={2} />
 			<KanbanColumn list={column3} columnNumber={3} />

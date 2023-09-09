@@ -57,7 +57,8 @@ const config = {
 				sans: [...fontFamily.sans]
 			},
 			animation: {
-				blob: 'blob 5s infinite'
+				blob: 'blob 5s infinite',
+				slowBlob: 'blob 30s infinite'
 			},
 			keyframes: {
 				blob: {

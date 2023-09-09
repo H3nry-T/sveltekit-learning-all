@@ -35,12 +35,12 @@
 	/>
 	<label
 		for="email"
-		class="block cursor-text text-gray-800 font-base text-transparent absolute top-[-25px] left-[7px] peer-placeholder-shown:top-[9px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear"
+		class="block cursor-text font-base text-transparent absolute top-[-25px] left-[7px] peer-placeholder-shown:top-[8px] peer-placeholder-shown:left-[10px] peer-placeholder-shown:text-muted-foreground transition-all duration-75 ease-linear"
 		>{placeholderFancy}</label
 	>
 	<label
 		for="email"
-		class="block font-semibold text-lg pointer-events-none peer-placeholder-shown:text-transparent text-gray-800 absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear {classLabel}"
+		class="block font-semibold text-lg pointer-events-none peer-placeholder-shown:text-transparent text-foreground absolute top-[-10px] left-[7px] peer-placeholder-shown:top-[5px] peer-placeholder-shown:left-[9px] peer-placeholder-shown:text-gray-500 transition-all duration-75 ease-linear {classLabel}"
 		>{labelFancy}</label
 	>
 </fieldset>
