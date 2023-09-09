@@ -1,5 +1,5 @@
 <script>
-	import { todos, updateColumnNumber } from '$lib/stores/todosStore';
+	import { todos, updateColumnNumber, updateRowNumber } from '$lib/stores/todosStore';
 	import { fly } from 'svelte/transition';
 	import * as Card from '../ui/card/index';
 	import KanbanCard from './KanbanCard.svelte';
@@ -17,6 +17,8 @@
 	 */
 	export let columnNumber;
 
+	let flipDurationMs = 200;
+
 	/**
 	 *
 	 * @param {*} e
@@ -26,23 +28,16 @@
 	}
 
 	/**
-	 *
-	 * @param {number} id
-	 * @param {number} columnNumber
-	 */
-
-	/**
 	 * @param {CustomEvent<import('svelte-dnd-action').DndEvent<import('$lib/stores/todosStore').Todo>>} e
 	 */
 	async function handleFinalize(e) {
 		try {
 			list = e.detail.items;
 			const id = +e.detail.info.id;
-			console.log(id);
-			console.log(columnNumber);
 			const draggedTodo = $todos.find((todo) => {
 				return todo.id === id;
 			});
+			await syncRowNumbers();
 			if (!(draggedTodo?.column_number === columnNumber)) {
 				await updateColumnNumber(id, columnNumber);
 			}
@@ -52,12 +47,11 @@
 		}
 	}
 
-	/**
-	 * @type {import('$lib/stores/todosStore').Todo} lastTodo
-	 */
-	$: lastTodo = $todos[$todos.length - 1];
-
-	let flipDurationMs = 200;
+	async function syncRowNumbers() {
+		list.forEach(async (todo, index) => {
+			await updateRowNumber(todo.id, index + 1);
+		});
+	}
 </script>
 
 <section class="min-h-screen">
@@ -77,7 +71,7 @@
 			>
 				{#each list as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
-						{#if todo.id === lastTodo.id}
+						{#if todo.id === $todos[$todos.length - 1].id}
 							<KanbanCard {todo} isLast={true} />
 						{:else}
 							<KanbanCard {todo} />

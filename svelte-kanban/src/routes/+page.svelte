@@ -15,9 +15,15 @@
 		title: ''
 	};
 
-	$: column1 = $todos.filter((t) => t.column_number === 1);
-	$: column2 = $todos.filter((t) => t.column_number === 2);
-	$: column3 = $todos.filter((t) => t.column_number === 3);
+	$: column1 = $todos
+		.filter((t) => t.column_number === 1)
+		.sort((a, b) => a.row_number - b.row_number);
+	$: column2 = $todos
+		.filter((t) => t.column_number === 2)
+		.sort((a, b) => a.row_number - b.row_number);
+	$: column3 = $todos
+		.filter((t) => t.column_number === 3)
+		.sort((a, b) => a.row_number - b.row_number);
 </script>
 
 <section class="min-w-full min-h-screen px-5 md:px-20">

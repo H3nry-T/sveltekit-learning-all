@@ -9,6 +9,7 @@ import { supabase } from '../supabase';
  * @property {string} title
  * @property {string} user_id
  * @property {string} description
+ * @property {number} row_number
  */
 
 /**
@@ -57,23 +58,39 @@ export async function getTodosById(id) {
  * @returns {Promise<void>}
  */
 export async function addTodos(todo, userId = 'test') {
-	const { data, error } = await supabase
+	/*
+		add a row_number to the todo object. It is dependent in column_number 1 and making sure it is the last index + 1
+	*/
+	const { data: readData, error: readError } = await supabase
 		.from('todos')
-		.insert([{ title: todo.title, is_done: false, user_id: userId }])
+		.select()
+		.eq('column_number', 1)
+		.order('id', { ascending: true });
+
+	if (readError) {
+		console.error(readError);
+		throw readError;
+	}
+	console.log(readData);
+	const { data: insertData, error: insertError } = await supabase
+		.from('todos')
+		.insert([
+			{ title: todo.title, is_done: false, user_id: userId, row_number: readData.length + 1 }
+		])
 		.select();
 
-	if (error) {
-		console.log(error);
-		console.log(data);
+	if (insertError) {
+		console.error(insertError);
+		throw insertError;
 	}
 
-	if (data) {
+	if (insertData) {
 		todos.update((todos) => {
-			return [...todos, data[0]];
+			return [...todos, insertData[0]];
 		});
 		console.log('todos store appended new todo');
 	} else {
-		console.log('no data');
+		console.log('no insertData');
 	}
 }
 
@@ -145,6 +162,62 @@ export async function updateColumnNumber(id, columnNumber) {
 		return todos.map((todo) => {
 			if (todo.id === id) {
 				return { ...todo, column_number: columnNumber };
+			}
+			return todo;
+		});
+	});
+}
+
+/**
+ * @function updateRowNumber
+ * @param {number} id
+ * @param {number} rowNumber
+ */
+export async function updateRowNumber(id, rowNumber) {
+	const { data, error } = await supabase
+		.from('todos')
+		.update({ row_number: rowNumber })
+		.match({ id: id })
+		.select();
+
+	if (error) {
+		console.error(error);
+	}
+
+	console.log(`${id} todo row number to ${rowNumber}`);
+
+	todos.update((todos) => {
+		return todos.map((todo) => {
+			if (todo.id === id) {
+				return { ...todo, row_number: rowNumber };
+			}
+			return todo;
+		});
+	});
+}
+
+/**
+ * @function syncRowNumbers
+ * @param {number} id - the Todo NOT TO SYNC
+ * @param {number} rowNumber 
+r */
+export async function syncRowNumbers(id, rowNumber) {
+	const { data, error } = await supabase
+		.from('todos')
+		.update({ row_number: rowNumber })
+		.match({ id: id })
+		.select();
+
+	if (error) {
+		console.error(error);
+	}
+
+	console.log(`${id} todo row number to ${rowNumber}`);
+
+	todos.update((todos) => {
+		return todos.map((todo) => {
+			if (todo.id === id) {
+				return { ...todo, row_number: rowNumber };
 			}
 			return todo;
 		});
