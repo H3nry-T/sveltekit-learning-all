@@ -8,6 +8,7 @@ import { supabase } from '../supabase';
  * @property {boolean} is_done
  * @property {string} title
  * @property {string} user_id
+ * @property {string} description
  */
 
 /**
@@ -18,20 +19,8 @@ import { supabase } from '../supabase';
 export const todos = writable([]);
 
 /**
- * creating a svelte store for prevTodos
- * @type {import('svelte/store').Writable<Todo[]>} prevTodos
- */
-
-export const prevTodos = writable([]);
-
-/**
- * creating a svelte store for prevTodos
- * @type {import('svelte/store').Writable<boolean>} isDeleting
- */
-export const isDeleting = writable(false);
-
-/**
  * loads supabase todos into svelte store
+ * @function loadTodos
  * @returns {Promise<void>}
  */
 
@@ -45,7 +34,6 @@ export async function loadTodos() {
 	// console.debug(data);
 	// console.log(data?.[data.length - 1]);
 	todos.set(/** @type {Todo[]} */ (data));
-	prevTodos.set(/** @type {Todo[]} */ (data));
 }
 
 /**
@@ -81,7 +69,6 @@ export async function addTodos(todo, userId = 'test') {
 
 	if (data) {
 		todos.update((todos) => {
-			prevTodos.set(todos);
 			return [...todos, data[0]];
 		});
 		console.log('todos store updated');
@@ -96,7 +83,6 @@ export async function addTodos(todo, userId = 'test') {
  * @returns {Promise<void>}
  */
 export async function deleteTodos(id) {
-	isDeleting.set(true);
 	const { error } = await supabase.from('todos').delete().match({ id: id });
 	if (error) {
 		console.error(error);
@@ -105,8 +91,6 @@ export async function deleteTodos(id) {
 	todos.update((todos) => {
 		return todos.filter((todo) => todo.id !== id);
 	});
-
-	isDeleting.set(false);
 }
 
 /**
