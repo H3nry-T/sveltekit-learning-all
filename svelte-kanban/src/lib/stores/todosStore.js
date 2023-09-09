@@ -195,31 +195,3 @@ export async function updateRowNumber(id, rowNumber) {
 		});
 	});
 }
-
-/**
- * @function syncRowNumbers
- * @param {number} id - the Todo NOT TO SYNC
- * @param {number} rowNumber 
-r */
-export async function syncRowNumbers(id, rowNumber) {
-	const { data, error } = await supabase
-		.from('todos')
-		.update({ row_number: rowNumber })
-		.match({ id: id })
-		.select();
-
-	if (error) {
-		console.error(error);
-	}
-
-	console.log(`${id} todo row number to ${rowNumber}`);
-
-	todos.update((todos) => {
-		return todos.map((todo) => {
-			if (todo.id === id) {
-				return { ...todo, row_number: rowNumber };
-			}
-			return todo;
-		});
-	});
-}
