@@ -1,5 +1,6 @@
 <script>
 	import KanbanCard from '$lib/components/KanbanPage/KanbanCard.svelte';
+	import KanbanColumn from '$lib/components/KanbanPage/KanbanColumn.svelte';
 	import CardTransition from '$lib/components/animation/CardTransition.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card';
@@ -14,10 +15,9 @@
 		title: ''
 	};
 
-	/**
-	 * @type {import('$lib/stores/todosStore').Todo} lastTodo
-	 */
-	$: lastTodo = $todos[$todos.length - 1];
+	$: column1 = $todos.filter((t) => t.column_number === 1);
+	$: column2 = $todos.filter((t) => t.column_number === 2);
+	$: column3 = $todos.filter((t) => t.column_number === 3);
 </script>
 
 <section class="min-w-full min-h-screen px-5 md:px-20">
@@ -52,46 +52,9 @@
 
 	<section class="pb-10 overflow-x-scroll lg:overflow-x-auto">
 		<section class="grid items-start grid-cols-3 gap-4 mt-10 min-w-[1000px]">
-			<Card.Root class="flex flex-col w-full gap-4 p-5 pt-4 min-w-fit">
-				<h2
-					class="text-xl font-semibold tracking-tight md:text-2xl first-letter:capitalize text-secondary-foreground"
-				>
-					ice-box
-				</h2>
-				{#each $todos.filter((t) => t.column_number === 1) as todo (todo.id)}
-					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
-						{#if todo.id === lastTodo.id}
-							<KanbanCard {todo} animateAddCard={$animateAddCard} />
-						{:else}
-							<KanbanCard {todo} />
-						{/if}
-					</div>
-				{/each}
-			</Card.Root>
-			<Card.Root class="flex flex-col w-full gap-4 p-5 pt-4 min-w-fit">
-				<h2
-					class="text-xl font-semibold tracking-tight md:text-2xl first-letter:capitalize text-secondary-foreground"
-				>
-					in-progress
-				</h2>
-				{#each $todos.filter((t) => t.column_number === 2) as todo (todo.id)}
-					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
-						<KanbanCard {todo} />
-					</div>
-				{/each}
-			</Card.Root>
-			<Card.Root class="flex flex-col w-full gap-4 p-5 pt-4 min-w-fit">
-				<h2
-					class="text-xl font-semibold tracking-tight md:text-2xl first-letter:capitalize text-secondary-foreground"
-				>
-					done
-				</h2>
-				{#each $todos.filter((t) => t.column_number === 3) as todo (todo.id)}
-					<div in:fly={{ y: 10 }} out:fly={{ y: -10 }}>
-						<KanbanCard {todo} />
-					</div>
-				{/each}
-			</Card.Root>
+			<KanbanColumn list={column1} columnNumber={1} />
+			<KanbanColumn list={column2} columnNumber={2} />
+			<KanbanColumn list={column3} columnNumber={3} />
 		</section>
 	</section>
 </section>

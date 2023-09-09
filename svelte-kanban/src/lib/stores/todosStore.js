@@ -122,3 +122,31 @@ export async function updateToggleTodos(id, todoIsDone) {
 		});
 	});
 }
+
+/**
+ * @function updateColumnNumber
+ * @param {number} id
+ * @param {number} columnNumber
+ */
+export async function updateColumnNumber(id, columnNumber) {
+	const { data, error } = await supabase
+		.from('todos')
+		.update({ column_number: columnNumber })
+		.match({ id: id })
+		.select();
+
+	if (error) {
+		console.error(error);
+	}
+
+	console.log(`${id} todo column number updated`);
+
+	todos.update((todos) => {
+		return todos.map((todo) => {
+			if (todo.id === id) {
+				return { ...todo, column_number: columnNumber };
+			}
+			return todo;
+		});
+	});
+}

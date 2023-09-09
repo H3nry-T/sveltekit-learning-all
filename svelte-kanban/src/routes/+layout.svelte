@@ -1,5 +1,6 @@
 <script>
 	import ColorPalette from '$lib/components/ColorPalette.svelte';
+	import KanbanColumn from '$lib/components/KanbanPage/KanbanColumn.svelte';
 	import ToggleLightDarkMode from '$lib/components/ToggleLightDarkMode.svelte';
 	import CardTransition from '$lib/components/animation/CardTransition.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -7,7 +8,7 @@
 	import '../app.css';
 	import Auth from '../lib/components/AuthPage/Auth.svelte';
 	import { userStore } from '../lib/stores/authStore';
-	import { loadTodos } from '../lib/stores/todosStore';
+	import { loadTodos, todos } from '../lib/stores/todosStore';
 	import { supabase } from '../lib/supabase';
 
 	import { LogOut } from 'lucide-svelte';
@@ -101,5 +102,5 @@
 			</section>
 		</section>
 	{/if}
-	<ColorPalette />
+	<!-- <ColorPalette /> -->
 </section>

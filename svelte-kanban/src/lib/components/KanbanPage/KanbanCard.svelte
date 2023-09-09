@@ -11,6 +11,8 @@
 	 */
 	export let todo;
 
+	export let outsideAnimateToggle = false;
+
 	/**
 	 * @type {boolean} animateAddCard
 	 */
@@ -29,6 +31,7 @@
 	class="min-w-fit  transition-all duration-300 ease-in-out relative  
 	{animateToggle ? 'border-accent-foreground' : null}
 	{animateAddCard ? 'border-accent-foreground' : null}
+	{outsideAnimateToggle ? 'border-accent-foreground' : null}
 	"
 >
 	<section class="absolute flex items-center gap-1 top-1 right-1">
