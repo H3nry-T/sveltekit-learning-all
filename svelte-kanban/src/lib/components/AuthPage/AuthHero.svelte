@@ -1,14 +1,14 @@
 <section class="relative flex flex-col items-center w-full pt-10">
 	<div
-		class="absolute pointer-events-none bg-blue-500 left-[40%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		class="absolute pointer-events-none bg-blue-500 left-[40%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 dark:opacity-100"
 		style="animation-delay: 1s;"
 	/>
 	<div
-		class="absolute pointer-events-none bg-orange-500 left-[50%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		class="absolute pointer-events-none bg-orange-500 left-[50%] top-[10%] z-[1] w-64 h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 dark:opacity-90"
 		style="animation-delay: 4s;"
 	/>
 	<div
-		class="absolute pointer-events-none bg-purple-500 left-[45%] top-[25%] w-64 z-[1] h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20"
+		class="absolute pointer-events-none bg-purple-500 left-[45%] top-[25%] w-64 z-[1] h-64 rounded-full mix-blend-multiply filter blur-xl animate-blob opacity-20 dark:opacity-70"
 		style="animation-delay: 2s;"
 	/>
 	<div class="relative mb-4 z-[0]">
