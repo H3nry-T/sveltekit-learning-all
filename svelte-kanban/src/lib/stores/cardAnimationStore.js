@@ -21,11 +21,12 @@ export function playAddCardAnimation(duration) {
 export const animateFinalizeCard = writable(false);
 
 /**
+ * holds the id of the card that is dropped on the kanban board
  * @type {import("svelte/store").Writable<number>} finalizingCard;
  */
 export const finalizingCard = writable(-1);
 /**
- * starts the animation for when adding a new todo card
+ * starts the animation for when adding finalizing specified card from {@link finalizingCard}
  * @param {number} duration - milliseconds
  */
 export function playFinalizeCardAnimation(duration) {
