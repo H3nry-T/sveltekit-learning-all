@@ -3,7 +3,8 @@
 		updateRowNumbersForColumn,
 		todos,
 		updateColumnNumber,
-		updateRowNumber
+		updateRowNumber,
+		loadTodos
 	} from '$lib/stores/todosStore';
 	import { fly } from 'svelte/transition';
 	import * as Card from '../ui/card/index';
@@ -49,22 +50,26 @@
 			const draggedTodoId = +e.detail.info.id;
 			finalizingCard.set(draggedTodoId);
 			playFinalizeCardAnimation(500);
+
 			const draggedTodo = $todos.find((todo) => {
 				return todo.id === draggedTodoId;
 			});
-			if (draggedTodo && draggedTodo.column_number !== columnNumber) {
-				console.log(
-					`dragged ${draggedTodo.title} col ${draggedTodo.column_number} row ${draggedTodo.row_number} console log from column ${columnNumber}`
-				);
+			if (draggedTodo) {
 				const finalizedDraggedTodo = syncedColumnRows.find((todo) => todo.id === draggedTodoId);
-				console.log(
-					`finalized ${finalizedDraggedTodo?.title} col ${finalizedDraggedTodo?.column_number} row ${finalizedDraggedTodo?.row_number} console log from column ${columnNumber}`
-				);
+				if (columnNumber === finalizedDraggedTodo?.column_number) {
+					console.log(
+						`dragged ${draggedTodo.title} col ${draggedTodo.column_number} row ${draggedTodo.row_number} console log from column ${columnNumber}`
+					);
+					console.log(
+						`finalized ${finalizedDraggedTodo?.title} col ${finalizedDraggedTodo?.column_number} row ${finalizedDraggedTodo?.row_number} console log from column ${columnNumber}`
+					);
+				}
 				if (finalizedDraggedTodo) {
 					await Promise.all([
 						updateColumnNumber(draggedTodoId, finalizedDraggedTodo?.column_number),
 						updateRowNumbersForColumn(syncedColumnRows)
 					]);
+					await loadTodos();
 				}
 			}
 		} catch (error) {
