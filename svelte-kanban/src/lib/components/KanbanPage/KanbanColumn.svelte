@@ -1,6 +1,6 @@
 <script>
 	import {
-		syncRowNumbers,
+		updateRowNumbersForColumn,
 		todos,
 		updateColumnNumber,
 		updateRowNumber
@@ -54,7 +54,7 @@
 			const draggedTodo = $todos.find((todo) => {
 				return todo.id === id;
 			});
-			await syncRowNumbers(syncedColumnRows);
+			await updateRowNumbersForColumn(syncedColumnRows);
 			if (!(draggedTodo?.column_number === columnNumber)) {
 				await updateColumnNumber(id, columnNumber);
 			}

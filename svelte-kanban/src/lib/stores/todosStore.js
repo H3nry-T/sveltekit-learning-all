@@ -202,7 +202,7 @@ export async function updateRowNumber(id, rowNumber) {
  * the column needs to be pre-synced before calling this function
  * @param {import('$lib/stores/todosStore').Todo[]} syncedColumn - takes a presynced column of todos to map into the database
  */
-export async function syncRowNumbers(syncedColumn) {
+export async function updateRowNumbersForColumn(syncedColumn) {
 	console.debug(syncedColumn);
 	const promises = syncedColumn.map((todo, i) => updateRowNumber(todo.id, i + 1));
 	await Promise.all(promises);
