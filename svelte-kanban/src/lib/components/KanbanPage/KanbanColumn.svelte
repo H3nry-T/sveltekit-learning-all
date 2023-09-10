@@ -89,7 +89,16 @@
 		<slot />
 		{#if columnNumber === 1}
 			<div
-				use:dndzone={{ items: column, flipDurationMs }}
+				use:dndzone={{
+					items: column,
+					flipDurationMs,
+					dropTargetClasses: [
+						'border',
+						'border-accent-foreground',
+						'outline-none',
+						'outline-gray-300'
+					]
+				}}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
 				class="flex flex-col gap-4 min-h-[100px] pb-10"
