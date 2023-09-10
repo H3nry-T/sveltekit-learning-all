@@ -58,9 +58,9 @@
 
 	<section class="pb-10">
 		<section class="grid items-start grid-cols-1 gap-4 mt-10 md:gap-1 md:grid-cols-3 lg:gap-4">
-			<KanbanColumn list={column1} columnNumber={1} />
-			<KanbanColumn list={column2} columnNumber={2} />
-			<KanbanColumn list={column3} columnNumber={3} />
+			<KanbanColumn column={column1} columnNumber={1} />
+			<KanbanColumn column={column2} columnNumber={2} />
+			<KanbanColumn column={column3} columnNumber={3} />
 		</section>
 	</section>
 </section>
