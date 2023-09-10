@@ -20,7 +20,8 @@ import { supabase } from '../supabase';
 export const todos = writable([]);
 
 /**
- * loads supabase todos into svelte store
+ * set svelte store with loaded supabase todos
+ * ?use this if you want to update the store after doing a database action?
  * @function loadTodos
  * @returns {Promise<void>}
  */
@@ -57,7 +58,7 @@ export async function getTodosById(id) {
  * @param {string} userId
  * @returns {Promise<void>}
  */
-export async function addTodos(todo, userId = 'test') {
+export async function addTodos(todo, userId) {
 	/*
 		add a row_number to the todo object. It is dependent in column_number 1 and making sure it is the last index + 1
 	*/
@@ -71,7 +72,7 @@ export async function addTodos(todo, userId = 'test') {
 		console.error(readError);
 		throw readError;
 	}
-	console.log(readData);
+
 	const { data: insertData, error: insertError } = await supabase
 		.from('todos')
 		.insert([
@@ -84,14 +85,16 @@ export async function addTodos(todo, userId = 'test') {
 		throw insertError;
 	}
 
-	if (insertData) {
-		todos.update((todos) => {
-			return [...todos, insertData[0]];
-		});
-		console.log('todos store appended new todo');
-	} else {
-		console.log('no insertData');
-	}
+	await loadTodos();
+
+	// if (insertData) {
+	// 	todos.update((todos) => {
+	// 		return [...todos, insertData[0]];
+	// 	});
+	// 	console.log('todos store appended new todo');
+	// } else {
+	// 	console.log('no insertData');
+	// }
 }
 
 /**
@@ -105,10 +108,12 @@ export async function deleteTodos(id) {
 		console.error(error);
 	}
 
-	todos.update((todos) => {
-		return todos.filter((todo) => todo.id !== id);
-	});
 	console.log(`${id} todo deleted`);
+
+	await loadTodos();
+	// todos.update((todos) => {
+	// 	return todos.filter((todo) => todo.id !== id);
+	// });
 }
 
 /**
@@ -130,17 +135,22 @@ export async function updateToggleTodos(id, todoIsDone) {
 
 	console.log(`${id} todo toggled ${!todoIsDone}`);
 
-	todos.update((todos) => {
-		return todos.map((todo) => {
-			if (todo.id === id) {
-				return { ...todo, is_done: !todo.is_done };
-			}
-			return todo;
-		});
-	});
+	await loadTodos();
+
+	// todos.update((todos) => {
+	// 	return todos.map((todo) => {
+	// 		if (todo.id === id) {
+	// 			return { ...todo, is_done: !todo.is_done };
+	// 		}
+	// 		return todo;
+	// 	});
+	// });
 }
 
 /**
+ * updates the column number using todo id
+ * STORE MUST NOT BE UPDATED TO NOT CONFLICT WITH SVELTE DND
+ * animations is kept smooth this way
  * @function updateColumnNumber
  * @param {number} id
  * @param {number} columnNumber
@@ -158,18 +168,21 @@ export async function updateColumnNumber(id, columnNumber) {
 
 	console.log(`${id} todo column number to ${columnNumber}`);
 
-	todos.update((todos) => {
-		return todos.map((todo) => {
-			if (todo.id === id) {
-				return { ...todo, column_number: columnNumber };
-			}
-			return todo;
-		});
-	});
+	// todos.update((todos) => {
+	// 	return todos.map((todo) => {
+	// 		if (todo.id === id) {
+	// 			return { ...todo, column_number: columnNumber };
+	// 		}
+	// 		return todo;
+	// 	});
+	// });
 }
 
 /**
  * updates the row number using todo id
+ * (THIS SEEMS TO CAUSE JANKY ANIMATION ON STORE UPDATE)
+ * reason is because svelte dnd updates positions and store refreshes as well.
+ * ui reflects the store, but ui also reflects svelte dnd postions. so it flashes in and out of the dom.
  * @function updateRowNumber
  * @param {number} id
  * @param {number} rowNumber
@@ -187,14 +200,14 @@ export async function updateRowNumber(id, rowNumber) {
 
 	console.log(`${id} todo row number to ${rowNumber}`);
 
-	todos.update((todos) => {
-		return todos.map((todo) => {
-			if (todo.id === id) {
-				return { ...todo, row_number: rowNumber };
-			}
-			return todo;
-		});
-	});
+	// todos.update((todos) => {
+	// 	return todos.map((todo) => {
+	// 		if (todo.id === id) {
+	// 			return { ...todo, row_number: rowNumber };
+	// 		}
+	// 		return todo;
+	// 	});
+	// });
 }
 
 /**
@@ -203,15 +216,10 @@ export async function updateRowNumber(id, rowNumber) {
  * @param {import('$lib/stores/todosStore').Todo[]} syncedColumn - takes a presynced column of todos to map into the database
  */
 export async function updateRowNumbersForColumn(syncedColumn) {
-	console.debug(syncedColumn);
 	const promises = syncedColumn.map((todo, i) => updateRowNumber(todo.id, i + 1));
-	await Promise.all(promises);
-
-	// const promisesToSyncRow = [];
-	// for (let i = 0; i < column.length; i++) {
-	// 	let todo = syncedColumn[i];
-	// 	let index = i;
-	// 	promisesToSyncRow.push(updateRowNumber(todo.id, index + 1));
-	// }
-	// await Promise.all(promisesToSyncRow);
+	try {
+		await Promise.all(promises);
+	} catch (error) {
+		console.error(error);
+	}
 }
