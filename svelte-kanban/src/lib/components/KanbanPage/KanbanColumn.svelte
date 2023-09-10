@@ -6,7 +6,7 @@
 		updateRowNumber,
 		loadTodos
 	} from '$lib/stores/todosStore';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import * as Card from '../ui/card/index';
 	import KanbanCard from './KanbanCard.svelte';
 	import {
@@ -15,7 +15,7 @@
 		playAddCardAnimation,
 		playFinalizeCardAnimation
 	} from '$lib/stores/cardAnimationStore';
-	import { dndzone } from 'svelte-dnd-action';
+	import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
 
 	/**
@@ -92,16 +92,18 @@
 				use:dndzone={{
 					items: column,
 					flipDurationMs,
+					dropTargetStyle: {},
 					dropTargetClasses: [
 						'border',
-						'border-accent-foreground',
-						'outline-none',
-						'outline-gray-300'
+						'border-black',
+						'dark:border-accent-foreground',
+						'pb-12',
+						'rounded-md'
 					]
 				}}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
-				class="flex flex-col gap-4 min-h-[100px] pb-10"
+				class="flex flex-col gap-4 min-h-[100px]"
 			>
 				{#each column as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
@@ -115,7 +117,18 @@
 			</div>
 		{:else}
 			<div
-				use:dndzone={{ items: column, flipDurationMs }}
+				use:dndzone={{
+					items: column,
+					flipDurationMs,
+					dropTargetStyle: {},
+					dropTargetClasses: [
+						'border',
+						'border-foreground',
+						'dark:border-accent-foreground',
+						'pb-12',
+						'rounded-md'
+					]
+				}}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
 				class="flex flex-col gap-4 min-h-[100px] pb-10"
