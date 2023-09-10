@@ -49,22 +49,21 @@
 
 <section>
 	{#if !loading}
+		<nav class="flex items-center justify-between w-full gap-4 px-4 py-5 md:p-6">
+			<ToggleLightDarkMode />
+			{#if $userStore}
+				<Button variant="default" on:click={handleSignOut}><LogOut size={22} /></Button>
+			{/if}
+		</nav>
 		{#if !$userStore}
-			<nav class="flex items-center justify-between w-full gap-4 px-4 py-5 md:p-10">
-				<ToggleLightDarkMode />
-			</nav>
 			<Auth />
 		{:else}
 			<CardTransition>
-				<nav class="flex items-center justify-between w-full gap-4 px-4 py-5 md:p-10">
-					<ToggleLightDarkMode />
-					<Button variant="default" on:click={handleSignOut}><LogOut size={22} /></Button>
-				</nav>
 				<slot />
 			</CardTransition>
 		{/if}
 	{:else}
-		<section class="flex flex-col items-center min-w-full min-h-screen gap-20 py-20">
+		<section class="flex flex-col items-center min-w-full min-h-screen gap-20 py-20 bg-background">
 			<Skeleton class="w-[90%] h-[100px] rounded-lg" />
 
 			<section class="grid w-full max-w-lg grid-cols-1 md:grid-cols-3 md:max-w-7xl gap-96">
