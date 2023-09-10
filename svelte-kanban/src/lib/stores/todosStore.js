@@ -169,6 +169,7 @@ export async function updateColumnNumber(id, columnNumber) {
 }
 
 /**
+ * updates the row number using todo id
  * @function updateRowNumber
  * @param {number} id
  * @param {number} rowNumber
