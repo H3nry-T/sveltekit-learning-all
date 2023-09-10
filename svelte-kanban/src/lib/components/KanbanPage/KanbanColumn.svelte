@@ -43,23 +43,32 @@
 	async function handleFinalize(e) {
 		try {
 			const syncedColumnRows = e.detail.items.map((todo, index) => {
-				return { ...todo, row_number: index + 1 };
+				return { ...todo, row_number: index + 1, column_number: columnNumber };
 			});
 			column = syncedColumnRows;
-			console.log(`syncedList moving rows in column ${columnNumber}`);
-			console.log(syncedColumnRows);
-			const id = +e.detail.info.id;
-			finalizingCard.set(id);
+			const draggedTodoId = +e.detail.info.id;
+			finalizingCard.set(draggedTodoId);
 			playFinalizeCardAnimation(500);
 			const draggedTodo = $todos.find((todo) => {
-				return todo.id === id;
+				return todo.id === draggedTodoId;
 			});
-			await updateRowNumbersForColumn(syncedColumnRows);
-			if (!(draggedTodo?.column_number === columnNumber)) {
-				await updateColumnNumber(id, columnNumber);
+			if (draggedTodo && draggedTodo.column_number !== columnNumber) {
+				console.log(
+					`dragged ${draggedTodo.title} col ${draggedTodo.column_number} row ${draggedTodo.row_number} console log from column ${columnNumber}`
+				);
+				const finalizedDraggedTodo = syncedColumnRows.find((todo) => todo.id === draggedTodoId);
+				console.log(
+					`finalized ${finalizedDraggedTodo?.title} col ${finalizedDraggedTodo?.column_number} row ${finalizedDraggedTodo?.row_number} console log from column ${columnNumber}`
+				);
+				if (finalizedDraggedTodo) {
+					await Promise.all([
+						updateColumnNumber(draggedTodoId, finalizedDraggedTodo?.column_number),
+						updateRowNumbersForColumn(syncedColumnRows)
+					]);
+				}
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			throw new Error(`${error}`);
 		}
 	}
