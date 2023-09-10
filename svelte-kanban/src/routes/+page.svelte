@@ -35,7 +35,7 @@
 	<form
 		class="flex items-center justify-center w-full max-w-sm gap-4 mb-5 rounded-lg text-card-foreground"
 		on:submit|preventDefault={async () => {
-			if (form.title.length > 0) {
+			if (form.title.length > 0 && $userStore !== null) {
 				await addTodos(form, $userStore?.id);
 				playAddCardAnimation(500);
 				form.title = '';
