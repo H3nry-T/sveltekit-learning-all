@@ -1,5 +1,10 @@
 <script>
-	import { todos, updateColumnNumber, updateRowNumber } from '$lib/stores/todosStore';
+	import {
+		syncRowNumbers,
+		todos,
+		updateColumnNumber,
+		updateRowNumber
+	} from '$lib/stores/todosStore';
 	import { fly } from 'svelte/transition';
 	import * as Card from '../ui/card/index';
 	import KanbanCard from './KanbanCard.svelte';
@@ -15,7 +20,7 @@
 	/**
 	 * @type {import('$lib/stores/todosStore').Todo[]}
 	 */
-	export let list;
+	export let column;
 
 	/**
 	 * @type {number} columnNumber
@@ -29,7 +34,7 @@
 	 * @param {*} e
 	 */
 	function handleConsider(e) {
-		list = e.detail.items;
+		column = e.detail.items;
 	}
 
 	/**
@@ -37,14 +42,19 @@
 	 */
 	async function handleFinalize(e) {
 		try {
-			list = e.detail.items;
+			const syncedColumnRows = e.detail.items.map((todo, index) => {
+				return { ...todo, row_number: index + 1 };
+			});
+			column = syncedColumnRows;
+			console.log(`syncedList moving rows in column ${columnNumber}`);
+			console.log(syncedColumnRows);
 			const id = +e.detail.info.id;
 			finalizingCard.set(id);
 			playFinalizeCardAnimation(500);
 			const draggedTodo = $todos.find((todo) => {
 				return todo.id === id;
 			});
-			await syncRowNumbers();
+			await syncRowNumbers(syncedColumnRows);
 			if (!(draggedTodo?.column_number === columnNumber)) {
 				await updateColumnNumber(id, columnNumber);
 			}
@@ -52,12 +62,6 @@
 			console.log(error);
 			throw new Error(`${error}`);
 		}
-	}
-
-	async function syncRowNumbers() {
-		list.forEach(async (todo, index) => {
-			await updateRowNumber(todo.id, index + 1);
-		});
 	}
 </script>
 
@@ -71,12 +75,12 @@
 		<slot />
 		{#if columnNumber === 1}
 			<div
-				use:dndzone={{ items: list, flipDurationMs }}
+				use:dndzone={{ items: column, flipDurationMs }}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
 				class="flex flex-col gap-4 min-h-[100px] pb-10"
 			>
-				{#each list as todo (todo.id)}
+				{#each column as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
 						{#if todo.id === $todos[$todos.length - 1].id}
 							<KanbanCard {todo} isLast={true} />
@@ -88,12 +92,12 @@
 			</div>
 		{:else}
 			<div
-				use:dndzone={{ items: list, flipDurationMs }}
+				use:dndzone={{ items: column, flipDurationMs }}
 				on:consider={handleConsider}
 				on:finalize={handleFinalize}
 				class="flex flex-col gap-4 min-h-[100px] pb-10"
 			>
-				{#each list as todo (todo.id)}
+				{#each column as todo (todo.id)}
 					<div animate:flip={{ duration: flipDurationMs }}>
 						<KanbanCard {todo} />
 					</div>

@@ -196,3 +196,22 @@ export async function updateRowNumber(id, rowNumber) {
 		});
 	});
 }
+
+/**
+ * syncs the row numbers of the todos in the column when dropped into that column
+ * the column needs to be pre-synced before calling this function
+ * @param {import('$lib/stores/todosStore').Todo[]} syncedColumn - takes a presynced column of todos to map into the database
+ */
+export async function syncRowNumbers(syncedColumn) {
+	console.debug(syncedColumn);
+	const promises = syncedColumn.map((todo, i) => updateRowNumber(todo.id, i + 1));
+	await Promise.all(promises);
+
+	// const promisesToSyncRow = [];
+	// for (let i = 0; i < column.length; i++) {
+	// 	let todo = syncedColumn[i];
+	// 	let index = i;
+	// 	promisesToSyncRow.push(updateRowNumber(todo.id, index + 1));
+	// }
+	// await Promise.all(promisesToSyncRow);
+}
