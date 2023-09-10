@@ -38,7 +38,7 @@
 		<header class="w-full pt-1 pl-2 pr-1">
 			<div class="flex items-center justify-between">
 				<h4
-					class="text-base md:text-sm font-semibold md:w-[14vw] lg:text-lg transition-colors duration-1000 ease-linear truncate first-letter:capitalize {todo.is_done
+					class="text-base md:text-sm font-semibold md:w-[14vw] lg:w-[17vw] lg:text-lg transition-colors duration-1000 ease-linear truncate first-letter:capitalize {todo.is_done
 						? 'line-through text-muted-foreground'
 						: ''}"
 				>
