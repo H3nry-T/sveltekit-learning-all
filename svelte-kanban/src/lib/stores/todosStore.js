@@ -33,8 +33,6 @@ export async function loadTodos() {
 	}
 
 	console.log(`supabase read and load into svelte store`);
-	// console.debug(data);
-	// console.log(data?.[data.length - 1]);
 	todos.set(/** @type {Todo[]} */ (data));
 }
 
@@ -85,16 +83,8 @@ export async function addTodos(todo, userId) {
 		throw insertError;
 	}
 
+	console.debug(insertData);
 	await loadTodos();
-
-	// if (insertData) {
-	// 	todos.update((todos) => {
-	// 		return [...todos, insertData[0]];
-	// 	});
-	// 	console.log('todos store appended new todo');
-	// } else {
-	// 	console.log('no insertData');
-	// }
 }
 
 /**
@@ -111,9 +101,6 @@ export async function deleteTodos(id) {
 	console.log(`${id} todo deleted`);
 
 	await loadTodos();
-	// todos.update((todos) => {
-	// 	return todos.filter((todo) => todo.id !== id);
-	// });
 }
 
 /**
@@ -136,15 +123,6 @@ export async function updateToggleTodos(id, todoIsDone) {
 	console.log(`${id} todo toggled ${!todoIsDone}`);
 
 	await loadTodos();
-
-	// todos.update((todos) => {
-	// 	return todos.map((todo) => {
-	// 		if (todo.id === id) {
-	// 			return { ...todo, is_done: !todo.is_done };
-	// 		}
-	// 		return todo;
-	// 	});
-	// });
 }
 
 /**
@@ -165,17 +143,6 @@ export async function updateColumnNumber(id, columnNumber) {
 	if (error) {
 		console.error(error);
 	}
-
-	console.log(`${id} todo column number to ${columnNumber}`);
-
-	// todos.update((todos) => {
-	// 	return todos.map((todo) => {
-	// 		if (todo.id === id) {
-	// 			return { ...todo, column_number: columnNumber };
-	// 		}
-	// 		return todo;
-	// 	});
-	// });
 }
 
 /**
@@ -197,17 +164,6 @@ export async function updateRowNumber(id, rowNumber) {
 	if (error) {
 		console.error(error);
 	}
-
-	console.log(`${id} todo row number to ${rowNumber}`);
-
-	// todos.update((todos) => {
-	// 	return todos.map((todo) => {
-	// 		if (todo.id === id) {
-	// 			return { ...todo, row_number: rowNumber };
-	// 		}
-	// 		return todo;
-	// 	});
-	// });
 }
 
 /**
