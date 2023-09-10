@@ -38,7 +38,6 @@
 	supabase.auth.onAuthStateChange((event, session) => {
 		if (session?.user) {
 			console.log(event, session);
-			console.log(session?.user);
 			userStore.set(session?.user);
 
 			loadTodos();
